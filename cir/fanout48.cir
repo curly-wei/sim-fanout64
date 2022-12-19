@@ -1,0 +1,40 @@
+.title Fanout 48 channels for testing CDCFE 
+
+  .include lib/ad8655/ad8655.cir
+  .subckt fanout48_ad8655 Vi Vo Vdd Vss kRf=1k kRg=1k 
+		******	
+		** kRf: Feedback resistor of OPA1 /Constant 
+		** kRg: Gain resistor of OPA1  /Constant 
+		** Vi: Volatge source input, with 50 ohm resistor
+		** Vo: Volatge output, with 50 ohm resistor
+		** Vcc: System power high
+		** Vss: System power low 	
+		******
+		R_i Vi Vss 50
+		R_f op1_n op1_o {kRf}
+		R_g op1_n Vss {kRg}
+		R_o op2_o Vo 50
+  
+		X_AD8655_i Vi op1_n Vdd Vss op1_o AD8655
+		X_AD8655_o op1_o op2_o Vdd Vss op2_o AD8655
+  .ends
+
+  .include lib/ad8397/ad8397.cir
+  .subckt fanout48_ad8397 Vi Vo Vdd Vss kRf=1k kRg=1k 
+		******	
+		** kRf: Feedback resistor of OPA1 /Constant 
+		** kRg: Gain resistor of OPA1  /Constant 
+		** Vi: Volatge source input, with 50 ohm resistor
+		** Vo: Volatge output, with 50 ohm resistor
+		** Vcc: System power high
+		** Vss: System power low 	
+		******
+		R_i Vi Vss 50
+		R_f op1_n op1_o {kRf}
+		R_g op1_n Vss {kRg}
+		R_o op2_o Vo 50
+  
+		X_AD8397_i Vi op1_n Vdd Vss op1_o AD8397
+		X_AD8397_o op1_o op2_o Vdd Vss op2_o AD8397
+  .ends
+.end

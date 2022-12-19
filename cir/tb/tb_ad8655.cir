@@ -1,0 +1,32 @@
+.title Testbench for 48 channels fanout with ad8655
+  .include ../fanout48.cir
+
+  * kVs: Vpp of function generator with 50 ohm output impedance
+  .param kVs = 100mV
+
+  VCC 4v5 GND DC 4.5V
+  
+  X_fanout48_ad8655 Vi Vo 4v5 GND fanout48_ad8655
+  R_vo_load Vo GND 50
+  R_funcgeg_res Vs Vi 50
+
+  ******
+  ** Pulse for emulate fanout48 current output
+  ** pulse( V_init V_pulse T_delay T_risetime T_falltime PulseWidth Period )
+  Vsrc Vs GND pulse( 0V {kVs*2} 0ns 20ns 20ns 1us 10us)
+
+  .control
+    * set ctrl var
+    set vo_file_name="ad8655-vo.ssv"
+    set vi_file_name="pulse-in.ssv"
+    * Transient Analyze
+    tran 100n 2u ;tran <step> <stop>
+    * Save data to ssv file
+    wrdata $vo_file_name V(Vo) 
+    wrdata $vi_file_name V(Vi) 
+    exit
+  .endc
+
+
+
+.end
